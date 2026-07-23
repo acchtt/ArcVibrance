@@ -1,0 +1,19 @@
+# Add these files to your existing add_executable(ArcVibrance ...):
+main.cpp
+AppState.cpp
+Settings.cpp
+Theme.cpp
+TrayIcon.cpp
+MainWindow.cpp
+
+# Keep your existing project files too:
+IGCLManager.cpp
+GameMonitor.cpp
+ForegroundWatcher.cpp
+ArcVibranceRuntime.cpp
+HueSaturation.cpp
+cApiWrapper.cpp
+ColorAlgorithms_App.cpp
+
+ColorBackendFactory.cpp
+IntelColorBackend.cpp

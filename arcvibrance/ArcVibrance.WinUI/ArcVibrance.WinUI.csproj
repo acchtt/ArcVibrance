@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>ArcVibrance</RootNamespace>
+    <AssemblyName>ArcVibrance</AssemblyName>
+    <ApplicationIcon>Assets\ArcVibrance.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>1.18.1</Version>
+    <AssemblyVersion>1.18.1.0</AssemblyVersion>
+    <FileVersion>1.18.1.0</FileVersion>
+    <InformationalVersion>C1.18.1</InformationalVersion>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishTrimmed>false</PublishTrimmed>
+    <NativeAgentSourcePath Condition="'$(NativeAgentSourcePath)' == ''">$(MSBuildProjectDirectory)\..\build\native-$(Platform)\$(Configuration)\ArcVibrance.Agent.exe</NativeAgentSourcePath>
+    <NativeAgentPdbSourcePath Condition="'$(NativeAgentPdbSourcePath)' == ''">$(MSBuildProjectDirectory)\..\build\native-$(Platform)\$(Configuration)\ArcVibrance.Agent.pdb</NativeAgentPdbSourcePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\ArcVibrance.ico" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\ArcVibrance.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!--
+    The native tray agent is a required runtime companion.  Include it in both
+    normal build output and publish output so ArcVibrance.exe can be launched
+    from Visual Studio/bin or from dist without losing the agent.
+  -->
+  <ItemGroup Condition="Exists('$(NativeAgentSourcePath)')">
+    <Content Include="$(NativeAgentSourcePath)">
+      <Link>ArcVibrance.Agent.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(NativeAgentPdbSourcePath)')">
+    <None Include="$(NativeAgentPdbSourcePath)">
+      <Link>ArcVibrance.Agent.pdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

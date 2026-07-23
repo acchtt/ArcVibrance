@@ -1,0 +1,726 @@
+<Window
+    x:Class="ArcVibrance.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt" />
+    </Window.SystemBackdrop>
+
+    <Grid x:Name="Root" Background="{ThemeResource AppBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="38" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Background="{ThemeResource TitleBarBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center" Margin="14,0,0,0">
+                <Image Source="Assets/ArcVibrance.png" Width="18" Height="18" />
+                <TextBlock Text="ArcVibrance" FontSize="13" Foreground="{ThemeResource TextSecondaryBrush}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="224" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="{ThemeResource SidebarBrush}"
+                    BorderBrush="{ThemeResource StrokeBrush}"
+                    BorderThickness="0,0,1,0">
+                <Grid Margin="16,14,16,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- C1.18.1 rounded neon brand lockup. The supplied artwork is
+                         displayed without circular clipping so its silhouette remains
+                         consistent with the Windows, taskbar, tray, footer, and About icons. -->
+                    <StackPanel HorizontalAlignment="Center" Spacing="0">
+                        <Grid Width="142" Height="142">
+                            <Ellipse Width="140" Height="140" Opacity="0.22">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#3925FF" Offset="0" />
+                                        <GradientStop Color="#141B4B" Offset="0.58" />
+                                        <GradientStop Color="Transparent" Offset="1" />
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Image Source="Assets/ArcVibrance.png"
+                                   Width="128"
+                                   Height="128"
+                                   Stretch="Uniform" />
+                        </Grid>
+                        <TextBlock Text="ArcVibrance"
+                                   FontSize="23"
+                                   FontWeight="SemiBold"
+                                   Margin="0,2,0,0"
+                                   HorizontalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#16CEFF" Offset="0" />
+                                    <GradientStop Color="#EAF5FF" Offset="0.52" />
+                                    <GradientStop Color="#F21CC8" Offset="1" />
+                                </LinearGradientBrush>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                        <TextBlock Text="VIBRANT COLORS."
+                                   Foreground="{ThemeResource LogoTaglinePrimaryBrush}"
+                                   FontSize="9.5"
+                                   CharacterSpacing="150"
+                                   Margin="0,9,0,0"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="BETTER GAMING."
+                                   Foreground="{ThemeResource LogoTaglineSecondaryBrush}"
+                                   FontSize="9.5"
+                                   CharacterSpacing="150"
+                                   Margin="0,3,0,0"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- The button itself remains transparent.  The named chrome is
+                         the only element that receives the persistent active-page
+                         treatment, preventing WinUI focus/pressed visuals from
+                         leaving multiple buttons illuminated. -->
+                    <StackPanel Grid.Row="1" Margin="0,28,0,0" Spacing="8">
+                        <Button x:Name="ProfilesNav" Style="{StaticResource NavButtonStyle}" IsTabStop="False" Click="ProfilesNav_Click">
+                            <Border x:Name="ProfilesNavChrome"
+                                    Width="174" Height="54"
+                                    CornerRadius="11"
+                                    BorderThickness="1"
+                                    Background="{StaticResource NavActiveBrush}"
+                                    BorderBrush="{StaticResource NeonGradientBrush}">
+                                <Grid Margin="18,0,16,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="34" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Glyph="&#xE7FC;" FontSize="22" Foreground="{ThemeResource ProfilesNavIconBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="ProfilesNavText" Grid.Column="1" Text="Profiles" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Button>
+                        <Button x:Name="SettingsNav" Style="{StaticResource NavButtonStyle}" IsTabStop="False" Click="SettingsNav_Click">
+                            <Border x:Name="SettingsNavChrome"
+                                    Width="174" Height="54"
+                                    CornerRadius="11"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
+                                <Grid Margin="18,0,16,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="34" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Glyph="&#xE713;" FontSize="22" Foreground="{ThemeResource SettingsNavIconBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="SettingsNavText" Grid.Column="1" Text="Settings" FontSize="16" Foreground="{ThemeResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Button>
+                        <Button x:Name="AboutNav" Style="{StaticResource NavButtonStyle}" IsTabStop="False" Click="AboutNav_Click">
+                            <Border x:Name="AboutNavChrome"
+                                    Width="174" Height="54"
+                                    CornerRadius="11"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
+                                <Grid Margin="18,0,16,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="34" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Glyph="&#xE946;" FontSize="22" Foreground="{ThemeResource AboutNavIconBrush}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="AboutNavText" Grid.Column="1" Text="About" FontSize="16" Foreground="{ThemeResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Compact monitoring card modelled after the supplied status
+                         reference. -->
+                    <Border Grid.Row="3"
+                            Background="{ThemeResource StatusCardBrush}"
+                            BorderBrush="{ThemeResource StatusCardStrokeBrush}"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            Padding="15,14"
+                            MinHeight="132">
+                        <StackPanel Spacing="6">
+                            <Grid ColumnSpacing="7">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Ellipse Width="10" Height="10" Fill="{ThemeResource PositiveBrush}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="Monitoring:" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="13" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{Binding MonitoringText}" Foreground="{ThemeResource PositiveBrush}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                            </Grid>
+                            <TextBlock Text="Active profile:" Foreground="{ThemeResource TextMutedBrush}" FontSize="12" Margin="0,3,0,0" />
+                            <TextBlock Text="{Binding ActiveProfileText}" Foreground="{ThemeResource CyanBrush}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                            <Grid ColumnSpacing="6" Margin="0,1,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Saturation:" Foreground="{ThemeResource TextMutedBrush}" FontSize="12" />
+                                <TextBlock Grid.Column="1" Text="{Binding AppliedSaturationText}" Foreground="{ThemeResource MagentaBrush}" FontSize="13" FontWeight="SemiBold" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <!-- Profiles page -->
+                <Grid x:Name="ProfilesPage" Margin="18,14,18,14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="136" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="390" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="0,0,14,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Margin="6,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Game Profiles" FontSize="25" FontWeight="SemiBold" />
+                                <TextBlock Text="Manage saturation and vibrance for your games" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="15" Margin="0,4,0,0" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Style="{StaticResource OutlineButtonStyle}" Click="AddGame_Click" Margin="0,0,10,0">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon Glyph="&#xE710;" Foreground="{ThemeResource CyanBrush}" />
+                                    <TextBlock Text="Add Game" />
+                                </StackPanel>
+                            </Button>
+                            <Button Grid.Column="2"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    Click="GlobalMenu_Click"
+                                    ToolTipService.ToolTip="Profile tools">
+                                <FontIcon Glyph="&#xE712;" />
+                            </Button>
+                        </Grid>
+
+                        <ListView x:Name="ProfilesList"
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding Profiles}"
+                                  SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
+                                  SelectionMode="Single"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Padding="0"
+                                  HorizontalContentAlignment="Stretch"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  SelectionChanged="ProfilesList_SelectionChanged">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0,0,0,9" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                  HorizontalContentAlignment="Stretch" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{ThemeResource ProfileCardBrush}"
+                                            BorderBrush="{Binding CardBorderBrush}"
+                                            BorderThickness="1.5"
+                                            CornerRadius="12"
+                                            Padding="12,9"
+                                            MinHeight="74">
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="54" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="70" />
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="24" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Width="54" Height="54"
+                                                    CornerRadius="9"
+                                                    Background="{ThemeResource ProfileIconBrush}"
+                                                    BorderBrush="{ThemeResource ProfileIconStrokeBrush}"
+                                                    BorderThickness="1">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Initial}" Visibility="{Binding InitialVisibility}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource CyanBrush}" />
+                                                    <Image Source="{Binding Icon}" Visibility="{Binding IconVisibility}" Width="48" Height="48" Stretch="Uniform" />
+                                                </Grid>
+                                            </Border>
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                                <TextBlock Text="{Binding DisplayName}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding ExecutableDetails}" FontSize="11.5" Foreground="{ThemeResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Column="2"
+                                                       Text="{Binding SaturationText}"
+                                                       Foreground="{Binding SaturationBrush}"
+                                                       FontSize="17"
+                                                       FontWeight="SemiBold"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center" />
+                                            <ToggleSwitch Grid.Column="3"
+                                                          IsOn="{Binding Enabled, Mode=OneWay}"
+                                                          OffContent=""
+                                                          OnContent=""
+                                                          MinWidth="46"
+                                                          Width="46"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Toggled="ProfileToggle_Toggled"
+                                                          Tag="{Binding}" />
+                                            <Button Grid.Column="4"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    Width="24" Height="40"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Tag="{Binding}"
+                                                    Click="ProfileMenu_Click">
+                                                <FontIcon Glyph="&#xE712;" FontSize="17" Foreground="{ThemeResource ProfileMenuIconBrush}" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <Border x:Name="DropZone" Grid.Row="2" AllowDrop="True" DragOver="DropZone_DragOver" Drop="DropZone_Drop" Background="{ThemeResource PanelRaisedBrush}" BorderBrush="{ThemeResource DropZoneStrokeBrush}" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,4,0,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
+                                <FontIcon Glyph="&#xE896;" FontSize="28" Foreground="{ThemeResource TextMutedBrush}" />
+                                <StackPanel>
+                                    <TextBlock Text="Drag and drop game executable(s) here" FontSize="15" />
+                                    <TextBlock Text="or click ‘Add Game’ to browse" Foreground="{ThemeResource TextMutedBrush}" Margin="0,3,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Padding="20">
+                        <Grid>
+                            <StackPanel Visibility="{Binding NoSelectedProfileVisibility}">
+                                <TextBlock Text="Edit Profile" FontSize="20" FontWeight="SemiBold" />
+                                <Border Height="1" Background="{ThemeResource StrokeBrush}" Margin="0,16,0,24" />
+                                <TextBlock Text="Select a profile" FontSize="21" FontWeight="SemiBold" />
+                                <TextBlock Text="Choose a game from the list to edit it here." Foreground="{ThemeResource TextSecondaryBrush}" Margin="0,8,0,0" />
+                            </StackPanel>
+
+                            <Grid Visibility="{Binding SelectedProfileVisibility}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Edit Profile" FontSize="20" FontWeight="SemiBold" />
+                                    <Button Grid.Column="1" Background="Transparent" BorderThickness="0" Padding="8" Click="CloseEditor_Click">
+                                        <FontIcon Glyph="&#xE711;" />
+                                    </Button>
+                                </Grid>
+
+                                <StackPanel Grid.Row="1" Margin="0,14,0,8" Spacing="12">
+                                        <Grid ColumnSpacing="16">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="68" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="68" Height="68" CornerRadius="10" Background="{ThemeResource EditorIconBrush}" BorderBrush="Transparent" BorderThickness="0">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding SelectedProfile.Initial}" Visibility="{Binding SelectedProfile.InitialVisibility}" FontSize="28" FontWeight="Bold" Foreground="{ThemeResource CyanBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    <Image Source="{Binding SelectedProfile.Icon}" Visibility="{Binding SelectedProfile.IconVisibility}" Width="60" Height="60" Stretch="Uniform" />
+                                                </Grid>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="5">
+                                                <TextBlock Text="{Binding SelectedProfile.DisplayName}" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding SelectedProfile.ExecutablePath}"
+                                                           Foreground="{ThemeResource TextSecondaryBrush}"
+                                                           TextWrapping="Wrap"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           MaxLines="2"
+                                                           FontSize="11.5" />
+                                                <TextBlock Text="{Binding SelectedProfile.NameSourceText}" Foreground="{ThemeResource CyanBrush}" FontSize="11" Opacity="0.82" />
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Border Height="1" Background="{ThemeResource StrokeBrush}" />
+                                        <TextBlock Text="Saturation" Foreground="{ThemeResource CyanBrush}" FontSize="16" FontWeight="SemiBold" />
+                                        <Grid>
+                                            <TextBlock Text="0%" Foreground="{ThemeResource TextSecondaryBrush}" />
+                                            <TextBlock Text="300%" Foreground="{ThemeResource TextSecondaryBrush}" HorizontalAlignment="Right" />
+                                        </Grid>
+                                        <Slider x:Name="SaturationSlider"
+                                                Minimum="0" Maximum="300" StepFrequency="1"
+                                                ValueChanged="SaturationSlider_ValueChanged"
+                                                Foreground="{StaticResource SliderGradientBrush}" />
+
+                                        <!-- Stable, single-surface numeric editor.  The value, percent sign,
+                                             divider, and centered chevrons all share one rounded container. -->
+                                        <Grid Width="212" Height="54" HorizontalAlignment="Center" Margin="0,2,0,0">
+                                            <Border Background="{ThemeResource InputBrush}"
+                                                    BorderBrush="{ThemeResource InputStrokeBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10" />
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="1" />
+                                                    <ColumnDefinition Width="44" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            Orientation="Horizontal"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Spacing="7">
+                                                    <TextBox x:Name="SaturationTextBox"
+                                                             Width="82"
+                                                             Height="44"
+                                                             MaxLength="3"
+                                                             Padding="0"
+                                                             Background="Transparent"
+                                                             BorderThickness="0"
+                                                             FontSize="27"
+                                                             FontWeight="SemiBold"
+                                                             TextAlignment="Right"
+                                                             HorizontalContentAlignment="Right"
+                                                             VerticalContentAlignment="Center"
+                                                             InputScope="Number"
+                                                             BeforeTextChanging="SaturationTextBox_BeforeTextChanging"
+                                                             TextChanged="SaturationTextBox_TextChanged"
+                                                             LostFocus="SaturationTextBox_LostFocus"
+                                                             KeyDown="SaturationTextBox_KeyDown" />
+                                                    <TextBlock Text="%"
+                                                               FontSize="16"
+                                                               Foreground="{ThemeResource TextSecondaryBrush}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,1,0,0"
+                                                               IsHitTestVisible="False" />
+                                                </StackPanel>
+
+                                                <Border Grid.Column="1" Background="{ThemeResource InputStrokeBrush}" />
+
+                                                <Grid Grid.Column="2">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="27" />
+                                                        <RowDefinition Height="27" />
+                                                    </Grid.RowDefinitions>
+                                                    <RepeatButton Grid.Row="0"
+                                                                  Width="44"
+                                                                  Height="27"
+                                                                  Style="{StaticResource NumericRepeatButtonStyle}"
+                                                                  Delay="350"
+                                                                  Interval="70"
+                                                                  Click="IncreaseSaturation_Click"
+                                                                  AutomationProperties.Name="Increase saturation">
+                                                        <Path Data="M 2,7 L 7,2 L 12,7"
+                                                              Width="13"
+                                                              Height="8"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Stroke="{ThemeResource TextSecondaryBrush}"
+                                                              StrokeThickness="1.5"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeLineJoin="Round"
+                                                              Stretch="Uniform" />
+                                                    </RepeatButton>
+                                                    <Border Grid.Row="1" Height="1" Background="{ThemeResource InputStrokeBrush}" VerticalAlignment="Top" />
+                                                    <RepeatButton Grid.Row="1"
+                                                                  Width="44"
+                                                                  Height="27"
+                                                                  Style="{StaticResource NumericRepeatButtonStyle}"
+                                                                  Delay="350"
+                                                                  Interval="70"
+                                                                  Click="DecreaseSaturation_Click"
+                                                                  AutomationProperties.Name="Decrease saturation">
+                                                        <Path Data="M 2,2 L 7,7 L 12,2"
+                                                              Width="13"
+                                                              Height="8"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Stroke="{ThemeResource TextSecondaryBrush}"
+                                                              StrokeThickness="1.5"
+                                                              StrokeStartLineCap="Round"
+                                                              StrokeEndLineCap="Round"
+                                                              StrokeLineJoin="Round"
+                                                              Stretch="Uniform" />
+                                                    </RepeatButton>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- Reserved UI for a future per-profile resolution override. -->
+                                        <Border Background="{ThemeResource DisabledPanelBrush}"
+                                                BorderBrush="{ThemeResource DisabledPanelStrokeBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="12"
+                                                Padding="12,10"
+                                                Margin="0,2,0,0">
+                                            <StackPanel Spacing="8">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Custom resolution"
+                                                               Foreground="{ThemeResource CyanBrush}"
+                                                               FontSize="15"
+                                                               FontWeight="SemiBold" />
+                                                    <Border Grid.Column="1"
+                                                            Background="{ThemeResource DisabledBadgeBrush}"
+                                                            BorderBrush="{ThemeResource InputStrokeBrush}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="9"
+                                                            Padding="8,2">
+                                                        <TextBlock Text="Coming soon"
+                                                                   FontSize="10.5"
+                                                                   Foreground="{ThemeResource TextSecondaryBrush}" />
+                                                    </Border>
+                                                </Grid>
+                                                <TextBlock Text="Apply this profile only at a specific game resolution."
+                                                           FontSize="11.5"
+                                                           Foreground="{ThemeResource TextSecondaryBrush}"
+                                                           TextWrapping="Wrap"
+                                                           MaxLines="2" />
+                                                <Grid ColumnSpacing="9" Opacity="0.55" IsHitTestVisible="False">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Background="{ThemeResource InputBrush}" BorderBrush="{ThemeResource InputStrokeBrush}" BorderThickness="1" CornerRadius="8" Padding="10,7">
+                                                        <TextBlock Text="1920" HorizontalAlignment="Center" Foreground="{ThemeResource TextSecondaryBrush}" />
+                                                    </Border>
+                                                    <TextBlock Grid.Column="1" Text="×" FontSize="18" Foreground="{ThemeResource TextMutedBrush}" VerticalAlignment="Center" />
+                                                    <Border Grid.Column="2" Background="{ThemeResource InputBrush}" BorderBrush="{ThemeResource InputStrokeBrush}" BorderThickness="1" CornerRadius="8" Padding="10,7">
+                                                        <TextBlock Text="1080" HorizontalAlignment="Center" Foreground="{ThemeResource TextSecondaryBrush}" />
+                                                    </Border>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                </StackPanel>
+
+                                <Grid Grid.Row="2" ColumnSpacing="12" Margin="0,12,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.9*" />
+                                        <ColumnDefinition Width="1.3*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Height="44"
+                                            HorizontalAlignment="Stretch"
+                                            Style="{StaticResource OutlineButtonStyle}"
+                                            Content="Cancel"
+                                            Click="CancelEditor_Click" />
+                                    <Button Grid.Column="1"
+                                            Height="44"
+                                            HorizontalAlignment="Stretch"
+                                            Style="{StaticResource NeonButtonStyle}"
+                                            Content="Save Changes"
+                                            Click="SaveEditor_Click" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- Compact footer inspired by the reference dashboard. -->
+                    <Border Grid.Row="1" Grid.ColumnSpan="2"
+                            Margin="0,14,0,0"
+                            Background="{ThemeResource FooterBrush}"
+                            BorderBrush="{ThemeResource FooterStrokeBrush}"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            Padding="16,12">
+                        <Grid ColumnSpacing="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.95*" />
+                                <ColumnDefinition Width="1.35*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Spacing="7">
+                                <TextBlock Text="Quick Actions"
+                                           Foreground="{ThemeResource CyanBrush}"
+                                           FontSize="13.5"
+                                           FontWeight="SemiBold" />
+                                <Grid ColumnSpacing="7">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Style="{StaticResource FooterActionButtonStyle}" Click="FooterVisitWebsite_Click">
+                                        <StackPanel Orientation="Horizontal" Spacing="7">
+                                            <FontIcon Glyph="&#xE774;" FontSize="14" Foreground="{ThemeResource CyanBrush}" />
+                                            <TextBlock Text="Website" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Column="1" Style="{StaticResource FooterActionButtonStyle}" Click="FooterVisitGitHub_Click">
+                                        <StackPanel Orientation="Horizontal" Spacing="7">
+                                            <FontIcon Glyph="&#xE71B;" FontSize="14" Foreground="{ThemeResource FooterSecondaryIconBrush}" />
+                                            <TextBlock Text="GitHub" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Column="2" Style="{StaticResource FooterActionButtonStyle}" Click="FooterCheckUpdates_Click">
+                                        <StackPanel Orientation="Horizontal" Spacing="7">
+                                            <FontIcon Glyph="&#xE895;" FontSize="14" Foreground="{ThemeResource CyanBrush}" />
+                                            <TextBlock Text="Updates" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+
+                            <Grid Grid.Column="1" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="76" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="About ArcVibrance"
+                                               Foreground="{ThemeResource CyanBrush}"
+                                               FontSize="13.5"
+                                               FontWeight="SemiBold" />
+                                    <TextBlock Text="Per-game saturation profiles for Intel® Arc™ graphics, powered by a lightweight native monitoring agent."
+                                               Foreground="{ThemeResource TextSecondaryBrush}"
+                                               FontSize="11.5"
+                                               TextWrapping="Wrap"
+                                               MaxLines="2" />
+                                    <TextBlock Text="Version C1.18.1  •  WinUI 3  •  .NET 8"
+                                               Foreground="{ThemeResource TextMutedBrush}"
+                                               FontSize="11" />
+                                </StackPanel>
+                                <Image Grid.Column="1"
+                                       Source="Assets/ArcVibrance.png"
+                                       Width="68"
+                                       Height="68"
+                                       Stretch="Uniform"
+                                       VerticalAlignment="Center" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <!-- Settings page -->
+                <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" Margin="38,26">
+                    <StackPanel MaxWidth="940" HorizontalAlignment="Left" Spacing="18">
+                        <StackPanel Margin="0,0,0,6">
+                            <TextBlock Text="Settings" FontSize="28" FontWeight="SemiBold" />
+                            <TextBlock Text="Control startup, window behavior, appearance, and the background service" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="15" Margin="0,5,0,0" />
+                        </StackPanel>
+
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="22">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="5">
+                                    <TextBlock Text="Launch at sign-in" FontSize="17" FontWeight="SemiBold" />
+                                    <TextBlock Text="Start ArcVibrance automatically after you sign in to Windows." Foreground="{ThemeResource TextSecondaryBrush}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding StartWithWindows, Mode=TwoWay}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="22">
+                            <StackPanel Spacing="14">
+                                <TextBlock Text="Close button behavior" FontSize="17" FontWeight="SemiBold" />
+                                <TextBlock Text="Choose whether the close button hides the window or closes the interface. The background service can continue applying profiles." Foreground="{ThemeResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                                <RadioButton x:Name="MinimizeRadio" Content="Hide the window and keep ArcVibrance in the system tray" Checked="CloseBehavior_Checked" Tag="0" />
+                                <RadioButton x:Name="ExitRadio" Content="Close the ArcVibrance interface" Checked="CloseBehavior_Checked" Tag="1" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="22">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="260"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="5">
+                                    <TextBlock Text="Appearance" FontSize="17" FontWeight="SemiBold" />
+                                    <TextBlock Text="Follow the Windows theme or always use a light or dark interface." Foreground="{ThemeResource TextSecondaryBrush}" />
+                                </StackPanel>
+                                <ComboBox x:Name="ThemeCombo" Grid.Column="1" SelectionChanged="ThemeCombo_SelectionChanged" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                    <ComboBoxItem Content="Use Windows theme" />
+                                    <ComboBoxItem Content="Light" />
+                                    <ComboBoxItem Content="Dark" />
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="22">
+                            <Grid ColumnSpacing="16">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <StackPanel Spacing="5">
+                                    <TextBlock Text="Background service" FontSize="17" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding AgentConnectionText}" Foreground="{ThemeResource CyanBrush}" />
+                                    <TextBlock Text="Detects the active game and applies Intel Arc saturation profiles in the background." Foreground="{ThemeResource TextSecondaryBrush}" />
+                                </StackPanel>
+                                <Button Grid.Column="1" Style="{StaticResource OutlineButtonStyle}" Content="Refresh profiles" Click="ReloadProfiles_Click" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- About page -->
+                <ScrollViewer x:Name="AboutPage" Visibility="Collapsed" Margin="38,26">
+                    <StackPanel MaxWidth="900" Spacing="20">
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="34">
+                            <Grid ColumnSpacing="28">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                <Image Source="Assets/ArcVibrance.png" Width="150" Height="150" Stretch="Uniform" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="10">
+                                    <TextBlock Text="ArcVibrance" FontSize="34" FontWeight="SemiBold" />
+                                    <TextBlock Text="WinUI 3 migration preview" Foreground="{ThemeResource CyanBrush}" FontSize="17" />
+                                    <TextBlock Text="ArcVibrance automatically applies per-game saturation profiles through the Intel Graphics Control Library while keeping the user interface isolated in a responsive C# process." TextWrapping="Wrap" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="15" />
+                                    <TextBlock Text="Version C1.18.1 • Windows App SDK 2.2 • .NET 8" Foreground="{ThemeResource TextMutedBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource CardBorderStyle}" Padding="24">
+                            <StackPanel Spacing="9">
+                                <TextBlock Text="Architecture" Foreground="{ThemeResource CyanBrush}" FontSize="18" FontWeight="SemiBold" />
+                                <TextBlock Text="• ArcVibrance.exe — C# / WinUI 3 presentation and profile management" Foreground="{ThemeResource TextSecondaryBrush}" />
+                                <TextBlock Text="• ArcVibrance.Agent.exe — existing C++ Intel backend and monitoring runtime" Foreground="{ThemeResource TextSecondaryBrush}" />
+                                <TextBlock Text="• Named pipe — versioned binary IPC compatible with the previous UI" Foreground="{ThemeResource TextSecondaryBrush}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <ProgressRing IsActive="{Binding IsBusy}" Visibility="{Binding BusyVisibility}" Width="54" Height="54" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
