@@ -6,6 +6,8 @@ ArcVibrance is a lightweight Windows utility that automatically applies a config
 
 > Current release candidate: **C1.18.1**
 
+[Visit the ArcVibrance website](https://acchtt.github.io/ArcVibrance/)
+
 ## Features
 
 - Per-game saturation profiles from 0% to 300%
@@ -33,6 +35,7 @@ Validated Windows builds will be published on the [GitHub Releases](https://gith
 - [`ArcVibrance.WinUI/`](ArcVibrance.WinUI/) — .NET 8 / WinUI 3 desktop interface
 - [`NativeAgent/`](NativeAgent/) — native C++ monitoring and Intel color-control agent
 - [`NativeAgent/tests/`](NativeAgent/tests/) — native profile-matching tests
+- [`website/`](website/) — dependency-free GitHub Pages website
 - [`.github/workflows/`](.github/workflows/) — automated Windows release builds
 
 ## Building from source

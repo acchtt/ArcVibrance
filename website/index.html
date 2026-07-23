@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ArcVibrance — automatic per-game color vibrance control for Intel Arc GPUs." />
+  <meta name="theme-color" content="#080b12" />
+  <title>ArcVibrance — Make Every Game Pop</title>
+  <link rel="icon" href="assets/arcvibrance-logo.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="orb orb-one" aria-hidden="true"></div>
+  <div class="orb orb-two" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="ArcVibrance home">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="assets/arcvibrance-logo.png" alt="" />
+        </span>
+        <span class="brand-wordmark">ArcVibrance</span>
+      </a>
+
+      <button class="menu-button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#preview">Preview</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <a class="button button-small button-ghost nav-cta" href="#download">Download</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow reveal">
+            <span class="pulse-dot"></span>
+            Built for Intel Arc GPUs
+          </div>
+          <h1 class="reveal delay-1">Make every game <span class="gradient-text">look alive.</span></h1>
+          <p class="hero-lead reveal delay-2">
+            ArcVibrance automatically applies the perfect color vibrance profile when your game launches, then restores your desktop when you are done.
+          </p>
+          <div class="hero-actions reveal delay-3">
+            <a class="button button-primary" href="#download">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14" /></svg>
+              Download for Windows
+            </a>
+            <a class="button button-secondary" href="#preview">
+              See it in action
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </a>
+          </div>
+          <div class="hero-meta reveal delay-4">
+            <span><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>Free and lightweight</span>
+            <span><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>Per-game profiles</span>
+            <span><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>Runs in the tray</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal delay-2" id="preview">
+          <div class="visual-glow"></div>
+          <figure class="app-window app-screenshot-frame" aria-label="ArcVibrance application preview">
+            <img src="assets/arcvibrance-app.png" alt="Latest ArcVibrance application interface showing a PUBG game profile and edit profile panel" />
+            <figcaption>
+              <span><i></i> Actual ArcVibrance interface</span>
+              <span>WinUI 3 · Intel Arc</span>
+            </figcaption>
+          </figure>
+          <div class="floating-badge badge-one"><span class="badge-icon">⚡</span><span><strong>Instant switching</strong><small>No manual changes</small></span></div>
+          <div class="floating-badge badge-two"><span class="badge-icon">180%</span><span><strong>Profile configured</strong><small>PUBG: BATTLEGROUNDS</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div class="container trust-inner">
+        <span>Designed for</span>
+        <div class="trust-logo"><b>intel</b> ARC</div>
+        <div class="trust-divider"></div>
+        <span>Compatible with Windows 10 &amp; 11</span>
+        <div class="trust-divider"></div>
+        <span>Zero bloat. Zero distractions.</span>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <div class="eyebrow">WHY ARCVIBRANCE</div>
+          <h2>Better color, <span class="gradient-text">without the hassle.</span></h2>
+          <p>Set it once. ArcVibrance handles the rest every time you launch a game.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card feature-large reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18" /><circle cx="12" cy="12" r="8" /></svg>
+            </div>
+            <span class="feature-tag">AUTOMATIC</span>
+            <h3>Per-game profiles</h3>
+            <p>Give every game its own vibrance level. Profiles activate automatically and restore your desktop settings when the game closes.</p>
+            <div class="mini-profile-stack">
+              <span class="mini-profile"><i class="mini-art one">V</i><b>Valorant</b><em>64%</em></span>
+              <span class="mini-profile"><i class="mini-art two">FH</i><b>Forza Horizon 5</b><em>58%</em></span>
+              <span class="mini-profile"><i class="mini-art three">2077</i><b>Cyberpunk 2077</b><em>72%</em></span>
+            </div>
+          </article>
+
+          <article class="feature-card reveal delay-1">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 14h6V4H4v10Zm10 6h6V10h-6v10Z" /><path d="M7 18v2m10-16v2" /></svg>
+            </div>
+            <h3>Precise control</h3>
+            <p>Fine-tune vibrance with a simple, responsive slider from subtle enhancement to full saturation.</p>
+            <div class="feature-slider"><span></span></div>
+          </article>
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6V2Z" /></svg>
+            </div>
+            <h3>Lightweight by design</h3>
+            <p>Runs quietly in your system tray with minimal CPU and memory usage.</p>
+            <div class="metric"><strong>&lt;1%</strong><span>typical CPU usage</span></div>
+          </article>
+
+          <article class="feature-card reveal delay-1">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4" /><path d="M12 3 4.5 6v5c0 5.2 3.2 8.4 7.5 10 4.3-1.6 7.5-4.8 7.5-10V6L12 3Z" /></svg>
+            </div>
+            <h3>Safe restoration</h3>
+            <p>Your original desktop settings are restored automatically, even after a game crashes.</p>
+          </article>
+
+          <article class="feature-card feature-wide reveal delay-2">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="M7 9h10M7 13h6" /></svg>
+            </div>
+            <div>
+              <h3>Clean, focused interface</h3>
+              <p>No confusing driver menus. Create a profile, choose a vibrance level, and get back into your game.</p>
+            </div>
+            <div class="interface-lines"><span></span><span></span><span></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how" id="how-it-works">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div class="eyebrow">HOW IT WORKS</div>
+          <h2>From install to vivid <span class="gradient-text">in three steps.</span></h2>
+        </div>
+
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step-number">01</span>
+            <div class="step-visual step-download">
+              <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14" /></svg>
+            </div>
+            <h3>Install ArcVibrance</h3>
+            <p>Download, install, and let the app detect your Intel Arc GPU.</p>
+          </article>
+          <div class="step-line"></div>
+          <article class="step reveal delay-1">
+            <span class="step-number">02</span>
+            <div class="step-visual step-profile">
+              <span class="tiny-card"></span><span class="tiny-card active"></span><span class="tiny-card"></span>
+            </div>
+            <h3>Create a profile</h3>
+            <p>Select a game executable and choose your preferred vibrance level.</p>
+          </article>
+          <div class="step-line"></div>
+          <article class="step reveal delay-2">
+            <span class="step-number">03</span>
+            <div class="step-visual step-play">
+              <svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z" /></svg>
+            </div>
+            <h3>Launch and play</h3>
+            <p>ArcVibrance detects the game and applies your profile automatically.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compare-section">
+      <div class="container compare-grid">
+        <div class="compare-copy reveal">
+          <div class="eyebrow">SEE THE DIFFERENCE</div>
+          <h2>More punch. More depth. <span class="gradient-text">More game.</span></h2>
+          <p>Use the slider to compare a natural desktop color profile with an enhanced ArcVibrance game profile.</p>
+          <div class="compare-points">
+            <span><i></i>Richer colors without crushing detail</span>
+            <span><i></i>Improved visual separation in competitive games</span>
+            <span><i></i>Profiles tuned independently for every title</span>
+          </div>
+        </div>
+        <div class="comparison reveal delay-1" id="comparison">
+          <div class="scene scene-vivid"></div>
+          <div class="scene scene-natural" id="natural-scene"></div>
+          <div class="compare-label label-before">Natural</div>
+          <div class="compare-label label-after">ArcVibrance</div>
+          <div class="compare-handle" id="compare-handle"><span>↔</span></div>
+          <input id="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare natural and ArcVibrance color" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section download-section" id="download">
+      <div class="container">
+        <div class="download-card reveal">
+          <div class="download-rings" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="download-icon">
+            <img src="assets/arcvibrance-logo.png" alt="ArcVibrance logo" />
+          </div>
+          <div class="eyebrow">READY TO PLAY</div>
+          <h2>Give your games the color they deserve.</h2>
+          <p>ArcVibrance is built for Windows PCs with Intel Arc graphics.</p>
+          <div class="download-actions">
+            <a class="button button-primary" id="download-button" href="https://github.com/acchtt/ArcVibrance/releases">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14" /></svg>
+              Download for Windows
+            </a>
+            <span>C1.18.1 · Windows 10 / 11 · Intel Arc</span>
+          </div>
+          <div class="requirements">
+            <span>Windows 10 / 11</span><i></i><span>Intel Arc GPU</span><i></i><span>64-bit</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="container faq-grid">
+        <div class="section-heading reveal">
+          <div class="eyebrow">FAQ</div>
+          <h2>Questions, <span class="gradient-text">answered.</span></h2>
+          <p>Everything you need to know before installing ArcVibrance.</p>
+        </div>
+        <div class="accordion reveal delay-1">
+          <details open>
+            <summary>Does ArcVibrance support Intel Arc GPUs?<span>+</span></summary>
+            <p>Yes. ArcVibrance is designed around Intel Arc graphics and provides automatic, per-game vibrance control.</p>
+          </details>
+          <details>
+            <summary>Will it change my desktop colors permanently?<span>+</span></summary>
+            <p>No. ArcVibrance restores your normal desktop profile when the game closes.</p>
+          </details>
+          <details>
+            <summary>Can every game use a different setting?<span>+</span></summary>
+            <p>Yes. Each game can have its own executable, vibrance value, and automatic activation setting.</p>
+          </details>
+          <details>
+            <summary>Does ArcVibrance need to stay open?<span>+</span></summary>
+            <p>It can run quietly in the system tray so it is ready whenever a configured game starts.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"><img src="assets/arcvibrance-logo.png" alt="" /></span>
+        <span class="brand-wordmark">ArcVibrance</span>
+      </a>
+      <p>Automatic game vibrance control for Intel Arc.</p>
+      <div class="footer-links"><a href="#features">Features</a><a href="#faq">FAQ</a><a href="#download">Download</a><a href="https://github.com/acchtt/ArcVibrance">GitHub</a></div>
+      <span class="copyright">© <span id="year"></span> ArcVibrance</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-icon">✓</span>
+    <span><strong>Profile saved</strong><small>Your game profile has been updated.</small></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
