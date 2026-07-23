@@ -4,7 +4,7 @@
 
 ArcVibrance is a lightweight Windows utility that automatically applies a configurable color-vibrance profile when a game starts and restores the desktop color state when the game closes.
 
-> Current release candidate: **C1.18.1**
+> Current release: **v1.0**
 
 [Visit the ArcVibrance website](https://acchtt.github.io/ArcVibrance/)
 

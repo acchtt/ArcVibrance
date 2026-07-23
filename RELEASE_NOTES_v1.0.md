@@ -1,6 +1,6 @@
-# ArcVibrance C1.18.1
+# ArcVibrance v1.0
 
-First public release candidate.
+First stable public release.
 
 ## Highlights
 
@@ -12,7 +12,7 @@ First public release candidate.
 - Refined dark and light WinUI 3 themes.
 - Rounded neon ArcVibrance branding across the app, tray, taskbar, About page, and footer.
 
-## C1.18.1 hotfix
+## v1.0 updates
 
 - Fixed a startup XAML resource-resolution failure introduced during the light-theme accent pass.
 - Preserved the updated Save Changes button and sidebar tagline colors.
@@ -26,6 +26,6 @@ First public release candidate.
 - Intel Arc GPU
 - Current Intel graphics driver
 
-## Validation note
+## Validation
 
-The source was prepared in a Linux environment. Build and test the Release x64 binaries on Windows before attaching them to a public GitHub Release.
+Built and verified as a self-contained Windows x64 package by GitHub Actions.
