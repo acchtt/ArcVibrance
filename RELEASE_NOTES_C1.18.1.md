@@ -17,6 +17,8 @@ First public release candidate.
 - Fixed a startup XAML resource-resolution failure introduced during the light-theme accent pass.
 - Preserved the updated Save Changes button and sidebar tagline colors.
 - Ensured required resources exist in both light and dark theme dictionaries.
+- Corrected the Website, GitHub, and Updates links in the desktop interface.
+- Added the `acchtt` creator credit to the About page and project website.
 
 ## Requirements
 

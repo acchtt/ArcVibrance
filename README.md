@@ -28,7 +28,8 @@ ArcVibrance is currently designed specifically for Intel Arc graphics. Other GPU
 
 ## Download
 
-Validated Windows builds will be published on the [GitHub Releases](https://github.com/acchtt/ArcVibrance/releases) page after final Release x64 testing on Windows.
+Download the validated Windows x64 build from
+[GitHub Releases](https://github.com/acchtt/ArcVibrance/releases).
 
 ## Repository layout
 

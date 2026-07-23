@@ -84,3 +84,40 @@ jobs:
           path: ArcVibrance-C1.18.1-win-x64.zip
           if-no-files-found: error
           retention-days: 14
+
+  publish-release:
+    name: Publish C1.18.1 prerelease
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Release ArcVibrance ')
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+
+    steps:
+      - name: Check out release notes
+        uses: actions/checkout@v7
+
+      - name: Download validated Windows build
+        uses: actions/download-artifact@v8
+        with:
+          name: ArcVibrance-C1.18.1-win-x64
+
+      - name: Create or update GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: C1.18.1
+          RELEASE_ARCHIVE: ArcVibrance-C1.18.1-win-x64.zip
+        run: |
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$RELEASE_ARCHIVE" \
+              --clobber \
+              --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$RELEASE_TAG" "$RELEASE_ARCHIVE" \
+              --prerelease \
+              --target "$GITHUB_SHA" \
+              --title "ArcVibrance $RELEASE_TAG" \
+              --notes-file RELEASE_NOTES_C1.18.1.md \
+              --repo "$GITHUB_REPOSITORY"
+          fi
