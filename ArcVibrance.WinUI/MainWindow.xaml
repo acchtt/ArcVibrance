@@ -705,6 +705,10 @@
                                     <TextBlock Text="WinUI 3 migration preview" Foreground="{ThemeResource CyanBrush}" FontSize="17" />
                                     <TextBlock Text="ArcVibrance automatically applies per-game saturation profiles through the Intel Graphics Control Library while keeping the user interface isolated in a responsive C# process." TextWrapping="Wrap" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="15" />
                                     <TextBlock Text="Version C1.18.1 • Windows App SDK 2.2 • .NET 8" Foreground="{ThemeResource TextMutedBrush}" />
+                                    <TextBlock Foreground="{ThemeResource TextMutedBrush}">
+                                        <Run Text="Created by " />
+                                        <Hyperlink NavigateUri="https://github.com/acchtt">acchtt</Hyperlink>
+                                    </TextBlock>
                                 </StackPanel>
                             </Grid>
                         </Border>

@@ -309,6 +309,8 @@ input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border-radius
 footer { border-top: 1px solid var(--line); }
 .footer-inner { min-height: 110px; display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 28px; }
 .footer-inner p, .copyright { margin: 0; color: var(--muted-2); font-size: 11px; }
+.copyright a { color: inherit; transition: color .2s ease; }
+.copyright a:hover { color: var(--text); }
 .footer-links { display: flex; gap: 22px; }
 
 .toast { position: fixed; z-index: 80; right: 24px; bottom: 24px; width: min(390px, calc(100% - 48px)); padding: 14px; display: flex; gap: 12px; align-items: center; border: 1px solid rgba(69,229,255,.24); border-radius: 14px; background: rgba(12,18,28,.92); box-shadow: var(--shadow); backdrop-filter: blur(18px); transform: translateY(25px); opacity: 0; pointer-events: none; transition: .28s ease; }

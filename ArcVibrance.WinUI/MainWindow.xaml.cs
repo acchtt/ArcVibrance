@@ -17,6 +17,10 @@ namespace ArcVibrance;
 
 public sealed partial class MainWindow : Window
 {
+    private static readonly Uri WebsiteUri = new("https://acchtt.github.io/ArcVibrance/");
+    private static readonly Uri RepositoryUri = new("https://github.com/acchtt/ArcVibrance");
+    private static readonly Uri ReleasesUri = new("https://github.com/acchtt/ArcVibrance/releases");
+
     private readonly MainViewModel _viewModel = new();
     private readonly UiCloseSignal _closeSignal = new();
     private readonly DispatcherTimer _statusTimer = new() { Interval = TimeSpan.FromSeconds(2) };
@@ -180,13 +184,13 @@ public sealed partial class MainWindow : Window
     private void SettingsNav_Click(object sender, RoutedEventArgs e) => ShowPage(SettingsPage, SettingsNav);
     private void AboutNav_Click(object sender, RoutedEventArgs e) => ShowPage(AboutPage, AboutNav);
     private async void FooterVisitWebsite_Click(object sender, RoutedEventArgs e) =>
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://vibrancegui.com/"));
+        await Windows.System.Launcher.LaunchUriAsync(WebsiteUri);
 
     private async void FooterVisitGitHub_Click(object sender, RoutedEventArgs e) =>
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/juv/vibranceGUI"));
+        await Windows.System.Launcher.LaunchUriAsync(RepositoryUri);
 
     private async void FooterCheckUpdates_Click(object sender, RoutedEventArgs e) =>
-        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/juv/vibranceGUI/releases"));
+        await Windows.System.Launcher.LaunchUriAsync(ReleasesUri);
 
 
     private void GlobalMenu_Click(object sender, RoutedEventArgs e)
