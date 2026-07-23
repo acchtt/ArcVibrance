@@ -6,11 +6,17 @@ on:
     branches:
       - main
     paths:
-      - "arcvibrance/**"
+      - "ArcVibrance.WinUI/**"
+      - "NativeAgent/**"
+      - "ArcVibrance.sln"
+      - "build.ps1"
       - ".github/workflows/build-release-x64.yml"
   pull_request:
     paths:
-      - "arcvibrance/**"
+      - "ArcVibrance.WinUI/**"
+      - "NativeAgent/**"
+      - "ArcVibrance.sln"
+      - "build.ps1"
       - ".github/workflows/build-release-x64.yml"
 
 permissions:
@@ -45,12 +51,11 @@ jobs:
           cmake --version
 
       - name: Build self-contained Release x64
-        working-directory: arcvibrance
         run: ./build.ps1 -Configuration Release -Platform x64 -SelfContained
 
       - name: Verify distribution
         run: |
-          $dist = Join-Path $env:GITHUB_WORKSPACE "arcvibrance\dist\x64"
+          $dist = Join-Path $env:GITHUB_WORKSPACE "dist\x64"
           $requiredFiles = @(
             "ArcVibrance.exe",
             "ArcVibrance.Agent.exe"
@@ -68,7 +73,7 @@ jobs:
 
       - name: Package Windows artifact
         run: |
-          $source = Join-Path $env:GITHUB_WORKSPACE "arcvibrance\dist\x64\*"
+          $source = Join-Path $env:GITHUB_WORKSPACE "dist\x64\*"
           $archive = Join-Path $env:GITHUB_WORKSPACE "ArcVibrance-C1.18.1-win-x64.zip"
           Compress-Archive -Path $source -DestinationPath $archive -CompressionLevel Optimal
 

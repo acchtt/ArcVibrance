@@ -28,12 +28,12 @@ ArcVibrance is currently designed specifically for Intel Arc graphics. Other GPU
 
 Validated Windows builds will be published on the [GitHub Releases](https://github.com/acchtt/ArcVibrance/releases) page after final Release x64 testing on Windows.
 
-## Source
+## Repository layout
 
-The C1.18.1 application source is published in [`arcvibrance/`](arcvibrance/). It contains:
-
-- `ArcVibrance.WinUI` — .NET 8 / WinUI 3 desktop interface
-- `NativeAgent` — native C++ monitoring and Intel color-control agent
+- [`ArcVibrance.WinUI/`](ArcVibrance.WinUI/) — .NET 8 / WinUI 3 desktop interface
+- [`NativeAgent/`](NativeAgent/) — native C++ monitoring and Intel color-control agent
+- [`NativeAgent/tests/`](NativeAgent/tests/) — native profile-matching tests
+- [`.github/workflows/`](.github/workflows/) — automated Windows release builds
 
 ## Building from source
 
@@ -48,11 +48,10 @@ Recommended build environment:
 From PowerShell:
 
 ```powershell
-cd arcvibrance
 ./build.ps1 -Configuration Release -Platform x64 -SelfContained
 ```
 
-The build output is written to `arcvibrance/dist/x64/`. The solution can also be opened directly from `arcvibrance/ArcVibrance.sln`.
+The build output is written to `dist/x64/`. The solution can also be opened directly from `ArcVibrance.sln`.
 
 GitHub Actions runs the same Release x64 build and uploads a packaged Windows artifact for validation.
 
