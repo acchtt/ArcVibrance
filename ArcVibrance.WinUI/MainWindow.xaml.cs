@@ -166,17 +166,15 @@ public sealed partial class MainWindow : Window
 
     private void UpdateNavigationButton(Button button, Border chrome, TextBlock label, bool isActive)
     {
-        // Persistent selection is painted by the content chrome, not by the
-        // Button control.  This keeps only the active page illuminated and
-        // avoids sticky pointer/focus visuals after a click.
+        // Persistent selection is painted with a fill only. Keeping both the
+        // Button and its content chrome borderless avoids a hard outline in
+        // the left navigation while preserving the active-page highlight.
         button.Background = new SolidColorBrush(Colors.Transparent);
         chrome.Background = isActive
             ? (Brush)Application.Current.Resources["NavActiveBrush"]
             : new SolidColorBrush(Colors.Transparent);
-        chrome.BorderBrush = isActive
-            ? (Brush)Application.Current.Resources["NeonGradientBrush"]
-            : new SolidColorBrush(Colors.Transparent);
-        chrome.BorderThickness = isActive ? new Thickness(1) : new Thickness(0);
+        chrome.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        chrome.BorderThickness = new Thickness(0);
         bool useLightTheme = Root.ActualTheme == ElementTheme.Light;
         label.Foreground = new SolidColorBrush(isActive
             ? Windows.UI.Color.FromArgb(255, 245, 247, 251)
