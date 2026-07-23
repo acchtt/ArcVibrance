@@ -10,6 +10,7 @@ on:
       - "NativeAgent/**"
       - "ArcVibrance.sln"
       - "build.ps1"
+      - "RELEASE_NOTES_*.md"
       - ".github/workflows/build-release-x64.yml"
   pull_request:
     paths:
@@ -17,6 +18,7 @@ on:
       - "NativeAgent/**"
       - "ArcVibrance.sln"
       - "build.ps1"
+      - "RELEASE_NOTES_*.md"
       - ".github/workflows/build-release-x64.yml"
 
 permissions:
@@ -31,6 +33,12 @@ jobs:
     name: Windows Release x64
     runs-on: windows-latest
     timeout-minutes: 30
+    outputs:
+      release_tag: ${{ steps.release.outputs.tag }}
+      release_archive: ${{ steps.release.outputs.archive }}
+      release_checksum: ${{ steps.release.outputs.checksum }}
+      release_artifact: ${{ steps.release.outputs.artifact }}
+      release_notes: ${{ steps.release.outputs.notes }}
 
     defaults:
       run:
@@ -49,6 +57,30 @@ jobs:
         run: |
           dotnet --info
           cmake --version
+
+      - name: Resolve release metadata
+        id: release
+        run: |
+          [xml]$project = Get-Content "ArcVibrance.WinUI\ArcVibrance.WinUI.csproj"
+          $versionGroup = @($project.Project.PropertyGroup) |
+            Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_.InformationalVersion) } |
+            Select-Object -First 1
+          $tag = ([string]$versionGroup.InformationalVersion).Trim()
+
+          if ($tag -notmatch '^v[0-9]+\.[0-9]+(?:\.[0-9]+){0,2}$') {
+            throw "InformationalVersion must be a stable v-prefixed version, received: $tag"
+          }
+
+          $archive = "ArcVibrance-$tag-win-x64.zip"
+          $checksum = "$archive.sha256"
+          $artifact = "ArcVibrance-$tag-win-x64"
+          $notes = "RELEASE_NOTES_$tag.md"
+
+          "tag=$tag" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "archive=$archive" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "checksum=$checksum" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "artifact=$artifact" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "notes=$notes" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Build self-contained Release x64
         run: ./build.ps1 -Configuration Release -Platform x64 -SelfContained
@@ -74,19 +106,24 @@ jobs:
       - name: Package Windows artifact
         run: |
           $source = Join-Path $env:GITHUB_WORKSPACE "dist\x64\*"
-          $archive = Join-Path $env:GITHUB_WORKSPACE "ArcVibrance-v1.0-win-x64.zip"
+          $archive = Join-Path $env:GITHUB_WORKSPACE "${{ steps.release.outputs.archive }}"
           Compress-Archive -Path $source -DestinationPath $archive -CompressionLevel Optimal
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  ${{ steps.release.outputs.archive }}" |
+            Set-Content "$archive.sha256" -Encoding ascii -NoNewline
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
         with:
-          name: ArcVibrance-v1.0-win-x64
-          path: ArcVibrance-v1.0-win-x64.zip
+          name: ${{ steps.release.outputs.artifact }}
+          path: |
+            ${{ steps.release.outputs.archive }}
+            ${{ steps.release.outputs.checksum }}
           if-no-files-found: error
           retention-days: 14
 
   publish-release:
-    name: Publish v1.0 release
+    name: Publish stable release
     needs: build
     if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Release ArcVibrance ')
     runs-on: ubuntu-latest
@@ -101,40 +138,38 @@ jobs:
       - name: Download validated Windows build
         uses: actions/download-artifact@v8
         with:
-          name: ArcVibrance-v1.0-win-x64
+          name: ${{ needs.build.outputs.release_artifact }}
 
       - name: Create or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: v1.0
-          RELEASE_ARCHIVE: ArcVibrance-v1.0-win-x64.zip
-          PREVIOUS_RELEASE_TAG: C1.18.1
+          RELEASE_TAG: ${{ needs.build.outputs.release_tag }}
+          RELEASE_ARCHIVE: ${{ needs.build.outputs.release_archive }}
+          RELEASE_CHECKSUM: ${{ needs.build.outputs.release_checksum }}
+          RELEASE_NOTES: ${{ needs.build.outputs.release_notes }}
         run: |
+          if [ ! -f "$RELEASE_NOTES" ]; then
+            echo "Missing release notes: $RELEASE_NOTES" >&2
+            exit 1
+          fi
+
           if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release edit "$RELEASE_TAG" \
               --latest \
               --prerelease=false \
               --title "ArcVibrance $RELEASE_TAG" \
-              --notes-file RELEASE_NOTES_v1.0.md \
+              --notes-file "$RELEASE_NOTES" \
               --repo "$GITHUB_REPOSITORY"
-            gh release upload "$RELEASE_TAG" "$RELEASE_ARCHIVE" \
+            gh release upload "$RELEASE_TAG" "$RELEASE_ARCHIVE" "$RELEASE_CHECKSUM" \
               --clobber \
               --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$RELEASE_TAG" "$RELEASE_ARCHIVE" \
+            gh release create "$RELEASE_TAG" "$RELEASE_ARCHIVE" "$RELEASE_CHECKSUM" \
               --latest \
               --target "$GITHUB_SHA" \
               --title "ArcVibrance $RELEASE_TAG" \
-              --notes-file RELEASE_NOTES_v1.0.md \
+              --notes-file "$RELEASE_NOTES" \
               --repo "$GITHUB_REPOSITORY"
           fi
 
           gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null
-
-          if [ "$PREVIOUS_RELEASE_TAG" != "$RELEASE_TAG" ] &&
-             gh release view "$PREVIOUS_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release delete "$PREVIOUS_RELEASE_TAG" \
-              --cleanup-tag \
-              --yes \
-              --repo "$GITHUB_REPOSITORY"
-          fi

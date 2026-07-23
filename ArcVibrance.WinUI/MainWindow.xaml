@@ -596,10 +596,15 @@
                                             <TextBlock Text="GitHub" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </Button>
-                                    <Button Grid.Column="2" Style="{StaticResource FooterActionButtonStyle}" Click="FooterCheckUpdates_Click">
+                                    <Button x:Name="UpdatesButton"
+                                            Grid.Column="2"
+                                            Style="{StaticResource FooterActionButtonStyle}"
+                                            Click="FooterCheckUpdates_Click">
                                         <StackPanel Orientation="Horizontal" Spacing="7">
                                             <FontIcon Glyph="&#xE895;" FontSize="14" Foreground="{ThemeResource CyanBrush}" />
-                                            <TextBlock Text="Updates" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="UpdatesButtonText"
+                                                       Text="Updates"
+                                                       VerticalAlignment="Center" />
                                         </StackPanel>
                                     </Button>
                                 </Grid>
@@ -620,7 +625,8 @@
                                                FontSize="11.5"
                                                TextWrapping="Wrap"
                                                MaxLines="2" />
-                                    <TextBlock Text="Version v1.0  •  WinUI 3  •  .NET 8"
+                                    <TextBlock x:Name="FooterVersionText"
+                                               Text="Version  •  WinUI 3  •  .NET 8"
                                                Foreground="{ThemeResource TextMutedBrush}"
                                                FontSize="11" />
                                 </StackPanel>
@@ -704,7 +710,9 @@
                                     <TextBlock Text="ArcVibrance" FontSize="34" FontWeight="SemiBold" />
                                     <TextBlock Text="WinUI 3 migration preview" Foreground="{ThemeResource CyanBrush}" FontSize="17" />
                                     <TextBlock Text="ArcVibrance automatically applies per-game saturation profiles through the Intel Graphics Control Library while keeping the user interface isolated in a responsive C# process." TextWrapping="Wrap" Foreground="{ThemeResource TextSecondaryBrush}" FontSize="15" />
-                                    <TextBlock Text="Version v1.0 • Windows App SDK 2.2 • .NET 8" Foreground="{ThemeResource TextMutedBrush}" />
+                                    <TextBlock x:Name="AboutVersionText"
+                                               Text="Version • Windows App SDK 2.2 • .NET 8"
+                                               Foreground="{ThemeResource TextMutedBrush}" />
                                     <TextBlock Foreground="{ThemeResource TextMutedBrush}">
                                         <Run Text="Created by " />
                                         <Hyperlink NavigateUri="https://github.com/acchtt">acchtt</Hyperlink>

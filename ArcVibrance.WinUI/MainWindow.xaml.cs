@@ -22,17 +22,24 @@ public sealed partial class MainWindow : Window
     private static readonly Uri ReleasesUri = new("https://github.com/acchtt/ArcVibrance/releases");
 
     private readonly MainViewModel _viewModel = new();
+    private readonly UpdateService _updateService = new();
     private readonly UiCloseSignal _closeSignal = new();
     private readonly DispatcherTimer _statusTimer = new() { Interval = TimeSpan.FromSeconds(2) };
     private AppWindow? _appWindow;
+    private UpdateCheckResult? _availableUpdate;
     private bool _forceClose;
     private bool _initialized;
     private bool _hideToTrayInProgress;
     private bool _syncingSaturation;
+    private bool _updateCheckInProgress;
 
     public MainWindow()
     {
         InitializeComponent();
+        FooterVersionText.Text =
+            $"Version {UpdateService.CurrentVersionTag}  •  WinUI 3  •  .NET 8";
+        AboutVersionText.Text =
+            $"Version {UpdateService.CurrentVersionTag} • Windows App SDK 2.2 • .NET 8";
         Root.DataContext = _viewModel;
         Root.ActualThemeChanged += Root_ActualThemeChanged;
         _viewModel.Profiles.CollectionChanged += (_, args) =>
@@ -102,6 +109,7 @@ public sealed partial class MainWindow : Window
         SyncSaturationEditor();
         ShowPage(ProfilesPage, ProfilesNav);
         _statusTimer.Start();
+        _ = CheckForUpdatesAsync(showResult: false);
     }
 
     private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
@@ -190,7 +198,177 @@ public sealed partial class MainWindow : Window
         await Windows.System.Launcher.LaunchUriAsync(RepositoryUri);
 
     private async void FooterCheckUpdates_Click(object sender, RoutedEventArgs e) =>
-        await Windows.System.Launcher.LaunchUriAsync(ReleasesUri);
+        await CheckForUpdatesAsync(showResult: true);
+
+    private async Task CheckForUpdatesAsync(bool showResult)
+    {
+        if (_updateCheckInProgress)
+        {
+            return;
+        }
+
+        _updateCheckInProgress = true;
+        UpdatesButton.IsEnabled = false;
+        UpdatesButtonText.Text = "Checking...";
+
+        try
+        {
+            UpdateCheckResult result = await _updateService.CheckForUpdatesAsync();
+            _availableUpdate = result.IsUpdateAvailable ? result : null;
+
+            UpdatesButtonText.Text = result.IsUpdateAvailable
+                ? $"Update {result.LatestVersionTag}"
+                : "Up to date";
+
+            if (showResult)
+            {
+                if (result.IsUpdateAvailable)
+                {
+                    await ShowUpdateAvailableDialogAsync(result);
+                }
+                else
+                {
+                    await ShowUpToDateDialogAsync(result);
+                }
+            }
+        }
+        catch (Exception exception)
+        {
+            UpdatesButtonText.Text = _availableUpdate is null
+                ? "Updates"
+                : $"Update {_availableUpdate.LatestVersionTag}";
+
+            if (showResult)
+            {
+                await ShowUpdateErrorDialogAsync(exception);
+            }
+        }
+        finally
+        {
+            _updateCheckInProgress = false;
+            UpdatesButton.IsEnabled = true;
+        }
+    }
+
+    private async Task ShowUpdateAvailableDialogAsync(UpdateCheckResult update)
+    {
+        var content = new StackPanel
+        {
+            Spacing = 12,
+            MinWidth = 430
+        };
+
+        content.Children.Add(new TextBlock
+        {
+            Text = $"{update.CurrentVersionTag}  →  {update.LatestVersionTag}",
+            FontSize = 18,
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+            Foreground = (Brush)Application.Current.Resources["CyanBrush"]
+        });
+
+        string releaseDetails = update.PublishedAt is DateTimeOffset publishedAt
+            ? $"Published {publishedAt.ToLocalTime():d}"
+            : "Latest stable GitHub release";
+
+        if (update.AssetSizeBytes > 0)
+        {
+            releaseDetails += $"  •  {FormatFileSize(update.AssetSizeBytes)}";
+        }
+
+        content.Children.Add(new TextBlock
+        {
+            Text = releaseDetails,
+            Foreground = (Brush)Application.Current.Resources["TextMutedBrush"]
+        });
+
+        if (!string.IsNullOrWhiteSpace(update.ReleaseNotes))
+        {
+            content.Children.Add(new ScrollViewer
+            {
+                MaxHeight = 230,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Content = new TextBlock
+                {
+                    Text = update.ReleaseNotes,
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = (Brush)Application.Current.Resources["TextSecondaryBrush"]
+                }
+            });
+        }
+
+        bool hasDirectDownload = update.DownloadUri is not null;
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = $"{update.ReleaseName} is available",
+            Content = content,
+            PrimaryButtonText = hasDirectDownload ? "Download update" : "View release",
+            SecondaryButtonText = hasDirectDownload ? "View release" : string.Empty,
+            CloseButtonText = "Later",
+            DefaultButton = ContentDialogButton.Primary
+        };
+
+        ContentDialogResult result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(
+                update.DownloadUri ?? update.ReleaseUri);
+        }
+        else if (result == ContentDialogResult.Secondary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(update.ReleaseUri);
+        }
+    }
+
+    private async Task ShowUpToDateDialogAsync(UpdateCheckResult update)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = "ArcVibrance is up to date",
+            Content =
+                $"You are running {update.CurrentVersionTag}. " +
+                $"The latest stable release is {update.LatestVersionTag}.",
+            PrimaryButtonText = "View releases",
+            CloseButtonText = "OK",
+            DefaultButton = ContentDialogButton.Close
+        };
+
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(update.ReleaseUri);
+        }
+    }
+
+    private async Task ShowUpdateErrorDialogAsync(Exception exception)
+    {
+        string message = exception is HttpRequestException
+            ? "ArcVibrance could not reach GitHub. Check your internet connection and try again."
+            : exception.Message;
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = "Could not check for updates",
+            Content = message,
+            PrimaryButtonText = "View releases",
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close
+        };
+
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(ReleasesUri);
+        }
+    }
+
+    private static string FormatFileSize(long sizeInBytes)
+    {
+        const double mebibyte = 1024d * 1024d;
+        return sizeInBytes >= mebibyte
+            ? $"{sizeInBytes / mebibyte:0.0} MB"
+            : $"{sizeInBytes / 1024d:0.0} KB";
+    }
 
 
     private void GlobalMenu_Click(object sender, RoutedEventArgs e)

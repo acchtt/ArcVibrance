@@ -16,6 +16,7 @@ ArcVibrance is a lightweight Windows utility that automatically applies a config
 - Lightweight native monitoring agent and system-tray operation
 - Steam game detection and executable icon extraction
 - Windows startup support
+- Built-in checks for the latest stable GitHub release
 - Light and dark WinUI 3 interface
 
 ## Requirements
@@ -58,6 +59,8 @@ From PowerShell:
 The build output is written to `dist/x64/`. The solution can also be opened directly from `ArcVibrance.sln`.
 
 GitHub Actions runs the same Release x64 build and uploads a packaged Windows artifact for validation.
+Release builds use the version in `ArcVibrance.WinUI.csproj`, publish a matching
+versioned ZIP, and include a SHA-256 checksum beside the download.
 
 ## Reporting issues
 
