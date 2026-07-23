@@ -628,6 +628,11 @@
                                                Text="Version  •  WinUI 3  •  .NET 8"
                                                Foreground="{ThemeResource TextMutedBrush}"
                                                FontSize="11" />
+                                    <TextBlock Foreground="{ThemeResource TextMutedBrush}"
+                                               FontSize="11">
+                                        <Run Text="Created by " />
+                                        <Hyperlink NavigateUri="https://github.com/acchtt">acchtt</Hyperlink>
+                                    </TextBlock>
                                 </StackPanel>
                                 <Image Grid.Column="1"
                                        Source="Assets/ArcVibrance.png"
@@ -725,86 +730,6 @@
                                 <TextBlock Text="• ArcVibrance.exe — C# / WinUI 3 presentation and profile management" Foreground="{ThemeResource TextSecondaryBrush}" />
                                 <TextBlock Text="• ArcVibrance.Agent.exe — existing C++ Intel backend and monitoring runtime" Foreground="{ThemeResource TextSecondaryBrush}" />
                                 <TextBlock Text="• Named pipe — versioned binary IPC compatible with the previous UI" Foreground="{ThemeResource TextSecondaryBrush}" />
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource CardBorderStyle}" Padding="24">
-                            <StackPanel Spacing="16">
-                                <TextBlock Text="Credits"
-                                           Foreground="{ThemeResource CyanBrush}"
-                                           FontSize="18"
-                                           FontWeight="SemiBold" />
-
-                                <Grid ColumnSpacing="14">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="42" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Width="42"
-                                            Height="42"
-                                            CornerRadius="10"
-                                            Background="{ThemeResource PanelRaisedBrush}">
-                                        <FontIcon Glyph="&#xE77B;"
-                                                  FontSize="19"
-                                                  Foreground="{ThemeResource CyanBrush}" />
-                                    </Border>
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Spacing="3">
-                                        <TextBlock Text="Creator and maintainer"
-                                                   FontWeight="SemiBold" />
-                                        <TextBlock Foreground="{ThemeResource TextSecondaryBrush}">
-                                            <Hyperlink NavigateUri="https://github.com/acchtt">acchtt</Hyperlink>
-                                            <Run Text=" — design, development, and releases" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid ColumnSpacing="14">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="42" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Width="42"
-                                            Height="42"
-                                            CornerRadius="10"
-                                            Background="{ThemeResource PanelRaisedBrush}">
-                                        <FontIcon Glyph="&#xE950;"
-                                                  FontSize="19"
-                                                  Foreground="{ThemeResource MagentaBrush}" />
-                                    </Border>
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Spacing="3">
-                                        <TextBlock Text="Graphics integration"
-                                                   FontWeight="SemiBold" />
-                                        <TextBlock Text="Intel® Graphics Control Library — display saturation control"
-                                                   Foreground="{ThemeResource TextSecondaryBrush}"
-                                                   TextWrapping="Wrap" />
-                                    </StackPanel>
-                                </Grid>
-
-                                <Grid ColumnSpacing="14">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="42" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Width="42"
-                                            Height="42"
-                                            CornerRadius="10"
-                                            Background="{ThemeResource PanelRaisedBrush}">
-                                        <FontIcon Glyph="&#xE943;"
-                                                  FontSize="19"
-                                                  Foreground="{ThemeResource SettingsNavIconBrush}" />
-                                    </Border>
-                                    <StackPanel Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Spacing="3">
-                                        <TextBlock Text="Application platform"
-                                                   FontWeight="SemiBold" />
-                                        <TextBlock Text="Microsoft WinUI 3 and .NET 8"
-                                                   Foreground="{ThemeResource TextSecondaryBrush}" />
-                                    </StackPanel>
-                                </Grid>
                             </StackPanel>
                         </Border>
                     </StackPanel>
