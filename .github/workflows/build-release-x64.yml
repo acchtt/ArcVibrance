@@ -1,0 +1,81 @@
+name: Build Release x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "arcvibrance/**"
+      - ".github/workflows/build-release-x64.yml"
+  pull_request:
+    paths:
+      - "arcvibrance/**"
+      - ".github/workflows/build-release-x64.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-release-x64-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Windows Release x64
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Show tool versions
+        run: |
+          dotnet --info
+          cmake --version
+
+      - name: Build self-contained Release x64
+        working-directory: arcvibrance
+        run: ./build.ps1 -Configuration Release -Platform x64 -SelfContained
+
+      - name: Verify distribution
+        run: |
+          $dist = Join-Path $env:GITHUB_WORKSPACE "arcvibrance\dist\x64"
+          $requiredFiles = @(
+            "ArcVibrance.exe",
+            "ArcVibrance.Agent.exe"
+          )
+
+          foreach ($fileName in $requiredFiles) {
+            $path = Join-Path $dist $fileName
+            if (-not (Test-Path $path -PathType Leaf)) {
+              throw "Required release file is missing: $path"
+            }
+            if ((Get-Item $path).Length -le 0) {
+              throw "Required release file is empty: $path"
+            }
+          }
+
+      - name: Package Windows artifact
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE "arcvibrance\dist\x64\*"
+          $archive = Join-Path $env:GITHUB_WORKSPACE "ArcVibrance-C1.18.1-win-x64.zip"
+          Compress-Archive -Path $source -DestinationPath $archive -CompressionLevel Optimal
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ArcVibrance-C1.18.1-win-x64
+          path: ArcVibrance-C1.18.1-win-x64.zip
+          if-no-files-found: error
+          retention-days: 14
