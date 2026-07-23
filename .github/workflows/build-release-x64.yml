@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - "**"
     paths:
       - "ArcVibrance.WinUI/**"
       - "NativeAgent/**"
@@ -125,7 +125,7 @@ jobs:
   publish-release:
     name: Publish stable release
     needs: build
-    if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Release ArcVibrance ')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release ArcVibrance ')
     runs-on: ubuntu-latest
     permissions:
       actions: read
