@@ -1,10 +1,10 @@
 # ArcVibrance
 
-Per-game saturation profiles for Intel® Arc™ graphics.
+**Per-game saturation profiles for Intel® Arc™ graphics.**
 
 ArcVibrance is a lightweight Windows utility that automatically applies a configurable color-vibrance profile when a game starts and restores the desktop color state when the game closes.
 
-Current release candidate: **C1.18.1**
+> Current release candidate: **C1.18.1**
 
 ## Features
 
@@ -22,9 +22,15 @@ Current release candidate: **C1.18.1**
 - Intel Arc graphics hardware
 - A current Intel graphics driver
 
+ArcVibrance is currently designed specifically for Intel Arc graphics. Other GPU vendors are not supported.
+
 ## Download
 
-Validated Windows builds will be published on the GitHub Releases page.
+Validated Windows builds will be published on the [GitHub Releases](https://github.com/acchtt/ArcVibrance/releases) page after final Release x64 testing on Windows.
+
+## Source release status
+
+The public repository setup, licensing, and C1.18.1 release notes are live. The application source tree and compiled Windows package are being prepared for the first complete release commit.
 
 ## Building from source
 
@@ -33,7 +39,7 @@ ArcVibrance contains two main components:
 - `ArcVibrance.WinUI` — .NET 8 / WinUI 3 desktop interface
 - `NativeAgent` — native C++ monitoring and Intel color-control agent
 
-Recommended tools:
+Recommended build environment:
 
 - Visual Studio 2022
 - Desktop development with C++ workload
@@ -41,17 +47,25 @@ Recommended tools:
 - Windows App SDK / WinUI 3 tooling
 - CMake
 
-Run from PowerShell:
+From PowerShell:
 
 ```powershell
 ./build.ps1
 ```
 
-## License
+The solution can also be opened directly with `ArcVibrance.sln` after the source tree is published.
 
-The source code is licensed under the MIT License.
+## Reporting issues
 
-The ArcVibrance name, logo, icon, and visual brand assets are not granted for use in unofficial or modified distributions.
+Please include your Windows version, Intel Arc GPU model, Intel graphics-driver version, affected game, reproduction steps, and relevant ArcVibrance logs.
+
+## Licensing
+
+ArcVibrance-authored source code is licensed under the [MIT License](LICENSE).
+
+The **ArcVibrance** name, logo, icon, and visual brand assets are covered by the separate [brand usage notice](BRAND_USAGE.md).
+
+Intel Graphics Control Library materials retain their original Intel copyright and license terms. See [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## Disclaimer
 
