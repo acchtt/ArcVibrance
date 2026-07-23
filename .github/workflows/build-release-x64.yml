@@ -90,7 +90,9 @@ jobs:
           $dist = Join-Path $env:GITHUB_WORKSPACE "dist\x64"
           $requiredFiles = @(
             "ArcVibrance.exe",
-            "ArcVibrance.Agent.exe"
+            "ArcVibrance.Agent.exe",
+            "Assets\ArcVibrance.ico",
+            "Assets\ArcVibrance.png"
           )
 
           foreach ($fileName in $requiredFiles) {
@@ -102,6 +104,18 @@ jobs:
               throw "Required release file is empty: $path"
             }
           }
+
+          $releaseFiles = @(Get-ChildItem $dist -File -Recurse)
+          $debugFiles = @($releaseFiles | Where-Object { $_.Extension -eq ".pdb" })
+          if ($debugFiles.Count -gt 0) {
+            throw "Release package contains debug symbols: $($debugFiles.FullName -join ', ')"
+          }
+
+          if ($releaseFiles.Count -gt 4) {
+            throw "Release package should contain at most 4 files, found $($releaseFiles.Count): $($releaseFiles.FullName -join ', ')"
+          }
+
+          Write-Host "Verified compact distribution with $($releaseFiles.Count) files."
 
       - name: Package Windows artifact
         run: |

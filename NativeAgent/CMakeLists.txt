@@ -25,6 +25,14 @@ add_executable(ArcVibranceAgent WIN32
 )
 
 set_target_properties(ArcVibranceAgent PROPERTIES OUTPUT_NAME "ArcVibrance.Agent")
+if(MSVC)
+    # Keep the release agent portable when the WinUI runtime is bundled into
+    # ArcVibrance.exe instead of shipping VC runtime DLLs beside the agent.
+    set_property(
+        TARGET ArcVibranceAgent
+        PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    )
+endif()
 target_compile_definitions(ArcVibranceAgent PRIVATE UNICODE _UNICODE)
 target_link_libraries(ArcVibranceAgent PRIVATE
     Comctl32

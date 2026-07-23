@@ -17,7 +17,7 @@ Then open `http://localhost:8080`.
 
 - `index.html` — page structure and content
 - `styles.css` — responsive styling
-- `script.js` — profile demo, comparison slider, navigation, and animations
+- `script.js` — mobile navigation and small header behaviors
 - `assets/arcvibrance-logo.png` — official ArcVibrance logo
 - `assets/arcvibrance-app.png` — application screenshot
 

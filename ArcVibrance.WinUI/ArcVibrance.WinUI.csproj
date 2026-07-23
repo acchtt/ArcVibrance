@@ -23,6 +23,16 @@
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishTrimmed>false</PublishTrimmed>
+    <!--
+      Release packages use the Windows App SDK single-file deployment model.
+      The WinUI/.NET runtime is bundled into ArcVibrance.exe and extracted by
+      the framework at launch, while the agent and app artwork remain visible
+      beside the launcher because ArcVibrance addresses them by file path.
+    -->
+    <PublishSingleFile Condition="'$(SelfContained)' == 'true'">true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract Condition="'$(SelfContained)' == 'true'">true</IncludeAllContentForSelfExtract>
+    <DebugType Condition="'$(Configuration)' == 'Release'">None</DebugType>
+    <DebugSymbols Condition="'$(Configuration)' == 'Release'">false</DebugSymbols>
     <NativeAgentSourcePath Condition="'$(NativeAgentSourcePath)' == ''">$(MSBuildProjectDirectory)\..\build\native-$(Platform)\$(Configuration)\ArcVibrance.Agent.exe</NativeAgentSourcePath>
     <NativeAgentPdbSourcePath Condition="'$(NativeAgentPdbSourcePath)' == ''">$(MSBuildProjectDirectory)\..\build\native-$(Platform)\$(Configuration)\ArcVibrance.Agent.pdb</NativeAgentPdbSourcePath>
   </PropertyGroup>
@@ -33,8 +43,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\ArcVibrance.ico" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Assets\ArcVibrance.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\ArcVibrance.ico"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          ExcludeFromSingleFile="true" />
+    <None Update="Assets\ArcVibrance.png"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          ExcludeFromSingleFile="true" />
   </ItemGroup>
 
   <!--
@@ -47,10 +63,11 @@
       <Link>ArcVibrance.Agent.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('$(NativeAgentPdbSourcePath)')">
+  <ItemGroup Condition="'$(Configuration)' != 'Release' and Exists('$(NativeAgentPdbSourcePath)')">
     <None Include="$(NativeAgentPdbSourcePath)">
       <Link>ArcVibrance.Agent.pdb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

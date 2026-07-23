@@ -92,7 +92,7 @@ if ($LASTEXITCODE -ne 0) { throw "WinUI publish failed with exit code $LASTEXITC
 # Keep an explicit post-publish copy as a final safeguard against custom MSBuild
 # output layouts or incremental publish behavior.
 Copy-Item $AgentExe (Join-Path $Dist 'ArcVibrance.Agent.exe') -Force
-if (Test-Path $AgentPdb) {
+if ($Configuration -ne 'Release' -and (Test-Path $AgentPdb)) {
     Copy-Item $AgentPdb (Join-Path $Dist 'ArcVibrance.Agent.pdb') -Force
 }
 
@@ -103,7 +103,7 @@ if (Test-Path $UiBinRoot) {
     $UiExecutables = @(Get-ChildItem $UiBinRoot -Filter 'ArcVibrance.exe' -File -Recurse -ErrorAction SilentlyContinue)
     foreach ($uiExecutable in $UiExecutables) {
         Copy-Item $AgentExe (Join-Path $uiExecutable.DirectoryName 'ArcVibrance.Agent.exe') -Force
-        if (Test-Path $AgentPdb) {
+        if ($Configuration -ne 'Release' -and (Test-Path $AgentPdb)) {
             Copy-Item $AgentPdb (Join-Path $uiExecutable.DirectoryName 'ArcVibrance.Agent.pdb') -Force
         }
     }
@@ -122,6 +122,11 @@ $uiInfo = Get-Item $UiExe
 $agentInfo = Get-Item $DistAgentExe
 if ($uiInfo.Length -le 0 -or $agentInfo.Length -le 0) {
     throw 'Distribution verification failed: one or more executable files are empty.'
+}
+
+$UnexpectedDebugFiles = @(Get-ChildItem $Dist -Filter '*.pdb' -File -Recurse -ErrorAction SilentlyContinue)
+if ($Configuration -eq 'Release' -and $UnexpectedDebugFiles.Count -gt 0) {
+    throw "Distribution verification failed: Release output contains debug symbols: $($UnexpectedDebugFiles.FullName -join ', ')"
 }
 
 Write-Host "Build complete: $Dist" -ForegroundColor Cyan
