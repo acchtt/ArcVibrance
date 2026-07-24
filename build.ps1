@@ -96,15 +96,6 @@ if ($Configuration -ne 'Release' -and (Test-Path $AgentPdb)) {
     Copy-Item $AgentPdb (Join-Path $Dist 'ArcVibrance.Agent.pdb') -Force
 }
 
-# Include the two path-based artwork files explicitly. Single-file publishing
-# bundles content for extraction, but the app intentionally loads these files
-# from its installation directory for the window and About-page artwork.
-$SourceAssets = Join-Path $Root 'ArcVibrance.WinUI\Assets'
-$DistAssets = Join-Path $Dist 'Assets'
-New-Item -ItemType Directory -Path $DistAssets -Force | Out-Null
-Copy-Item (Join-Path $SourceAssets 'ArcVibrance.ico') (Join-Path $DistAssets 'ArcVibrance.ico') -Force
-Copy-Item (Join-Path $SourceAssets 'ArcVibrance.png') (Join-Path $DistAssets 'ArcVibrance.png') -Force
-
 # A developer may launch ArcVibrance.exe directly from bin instead of dist.
 # Ensure each local WinUI output directory also receives the companion agent.
 $UiBinRoot = Join-Path $Root "ArcVibrance.WinUI\bin\$Platform\$Configuration"

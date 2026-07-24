@@ -25,9 +25,9 @@
     <PublishTrimmed>false</PublishTrimmed>
     <!--
       Release packages use the Windows App SDK single-file deployment model.
-      The WinUI/.NET runtime is bundled into ArcVibrance.exe and extracted by
-      the framework at launch, while the agent and app artwork remain visible
-      beside the launcher because ArcVibrance addresses them by file path.
+      The WinUI/.NET runtime and brand artwork are bundled into ArcVibrance.exe.
+      The native monitoring agent remains beside the launcher as the only
+      required companion file.
     -->
     <PublishSingleFile Condition="'$(SelfContained)' == 'true'">true</PublishSingleFile>
     <IncludeAllContentForSelfExtract Condition="'$(SelfContained)' == 'true'">true</IncludeAllContentForSelfExtract>
@@ -43,14 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\ArcVibrance.ico"
-          CopyToOutputDirectory="PreserveNewest"
-          CopyToPublishDirectory="PreserveNewest"
-          ExcludeFromSingleFile="true" />
-    <None Update="Assets\ArcVibrance.png"
-          CopyToOutputDirectory="PreserveNewest"
-          CopyToPublishDirectory="PreserveNewest"
-          ExcludeFromSingleFile="true" />
+    <EmbeddedResource Include="Assets\ArcVibrance.ico"
+                      LogicalName="ArcVibrance.Brand.ArcVibrance.ico" />
+    <EmbeddedResource Include="Assets\ArcVibrance.png"
+                      LogicalName="ArcVibrance.Brand.ArcVibrance.png" />
   </ItemGroup>
 
   <!--

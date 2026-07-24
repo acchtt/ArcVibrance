@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -36,6 +37,7 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ApplyBrandAssets();
         FooterVersionText.Text =
             $"Version {UpdateService.CurrentVersionTag}  •  WinUI 3  •  .NET 8";
         AboutVersionText.Text =
@@ -87,10 +89,19 @@ public sealed partial class MainWindow : Window
             presenter.IsMaximizable = true;
             presenter.IsMinimizable = true;
         }
-        _appWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "ArcVibrance.ico"));
+        _appWindow.SetIcon(BrandAssets.IconPath);
         _appWindow.Closing += AppWindow_Closing;
 
         UpdateTitleBarColors(Root.ActualTheme);
+    }
+
+    private void ApplyBrandAssets()
+    {
+        var logo = new BitmapImage(new Uri(BrandAssets.LogoPath, UriKind.Absolute));
+        TitleBarBrandLogo.Source = logo;
+        SidebarBrandLogo.Source = logo;
+        FooterBrandLogo.Source = logo;
+        AboutBrandLogo.Source = logo;
     }
 
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args)

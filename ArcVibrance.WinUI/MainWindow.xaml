@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center" Margin="14,0,0,0">
-                <Image Source="Assets/ArcVibrance.png" Width="18" Height="18" />
+                <Image x:Name="TitleBarBrandLogo" Width="18" Height="18" />
                 <TextBlock Text="ArcVibrance" FontSize="13" Foreground="{ThemeResource TextSecondaryBrush}" />
             </StackPanel>
         </Grid>
@@ -56,7 +56,7 @@
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <Image Source="Assets/ArcVibrance.png"
+                            <Image x:Name="SidebarBrandLogo"
                                    Width="128"
                                    Height="128"
                                    Stretch="Uniform" />
@@ -514,11 +514,6 @@
                                                                    Foreground="{ThemeResource TextSecondaryBrush}" />
                                                     </Border>
                                                 </Grid>
-                                                <TextBlock Text="Apply this profile only at a specific game resolution."
-                                                           FontSize="11.5"
-                                                           Foreground="{ThemeResource TextSecondaryBrush}"
-                                                           TextWrapping="Wrap"
-                                                           MaxLines="2" />
                                                 <Grid ColumnSpacing="9" Opacity="0.55" IsHitTestVisible="False">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*" />
@@ -634,8 +629,8 @@
                                         <Hyperlink NavigateUri="https://github.com/acchtt">acchtt</Hyperlink>
                                     </TextBlock>
                                 </StackPanel>
-                                <Image Grid.Column="1"
-                                       Source="Assets/ArcVibrance.png"
+                                <Image x:Name="FooterBrandLogo"
+                                       Grid.Column="1"
                                        Width="68"
                                        Height="68"
                                        Stretch="Uniform"
@@ -709,7 +704,7 @@
                         <Border Style="{StaticResource CardBorderStyle}" Padding="34">
                             <Grid ColumnSpacing="28">
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="160"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                <Image Source="Assets/ArcVibrance.png" Width="150" Height="150" Stretch="Uniform" />
+                                <Image x:Name="AboutBrandLogo" Width="150" Height="150" Stretch="Uniform" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="10">
                                     <TextBlock Text="ArcVibrance" FontSize="34" FontWeight="SemiBold" />
                                     <TextBlock Text="WinUI 3 migration preview" Foreground="{ThemeResource CyanBrush}" FontSize="17" />

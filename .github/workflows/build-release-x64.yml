@@ -90,9 +90,7 @@ jobs:
           $dist = Join-Path $env:GITHUB_WORKSPACE "dist\x64"
           $requiredFiles = @(
             "ArcVibrance.exe",
-            "ArcVibrance.Agent.exe",
-            "Assets\ArcVibrance.ico",
-            "Assets\ArcVibrance.png"
+            "ArcVibrance.Agent.exe"
           )
 
           foreach ($fileName in $requiredFiles) {
@@ -111,8 +109,8 @@ jobs:
             throw "Release package contains debug symbols: $($debugFiles.FullName -join ', ')"
           }
 
-          if ($releaseFiles.Count -gt 4) {
-            throw "Release package should contain at most 4 files, found $($releaseFiles.Count): $($releaseFiles.FullName -join ', ')"
+          if ($releaseFiles.Count -ne 2) {
+            throw "Release package should contain exactly 2 files, found $($releaseFiles.Count): $($releaseFiles.FullName -join ', ')"
           }
 
           Write-Host "Verified compact distribution with $($releaseFiles.Count) files."

@@ -374,9 +374,7 @@ public sealed class UpdateService
         string[] requiredFiles =
         [
             "ArcVibrance.exe",
-            "ArcVibrance.Agent.exe",
-            Path.Combine("Assets", "ArcVibrance.ico"),
-            Path.Combine("Assets", "ArcVibrance.png")
+            "ArcVibrance.Agent.exe"
         ];
 
         foreach (string relativePath in requiredFiles)

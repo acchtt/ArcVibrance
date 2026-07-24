@@ -8,6 +8,8 @@ ArcVibrance is a lightweight Windows utility that automatically applies a config
 
 [Visit the ArcVibrance website](https://acchtt.github.io/ArcVibrance/)
 
+<img src="website/assets/arcvibrance-app.png" alt="ArcVibrance game profiles and profile editor" width="100%">
+
 ## Features
 
 - Per-game saturation profiles from 0% to 300%
@@ -60,7 +62,9 @@ The build output is written to `dist/x64/`. The solution can also be opened dire
 
 GitHub Actions runs the same Release x64 build and uploads a packaged Windows artifact for validation.
 Release builds use the version in `ArcVibrance.WinUI.csproj`, publish a matching
-versioned ZIP, and include a SHA-256 checksum beside the download.
+versioned ZIP, and include a SHA-256 checksum beside the download. The portable
+package contains only `ArcVibrance.exe` and `ArcVibrance.Agent.exe`; application
+artwork is embedded in the UI executable.
 
 ## Reporting issues
 
