@@ -294,14 +294,16 @@ public sealed partial class MainWindow : Window
             });
         }
 
-        bool hasDirectDownload = update.DownloadUri is not null;
+        bool canInstallAutomatically =
+            update.DownloadUri is not null &&
+            update.ChecksumDownloadUri is not null;
         var dialog = new ContentDialog
         {
             XamlRoot = Root.XamlRoot,
             Title = $"{update.ReleaseName} is available",
             Content = content,
-            PrimaryButtonText = hasDirectDownload ? "Download update" : "View release",
-            SecondaryButtonText = hasDirectDownload ? "View release" : string.Empty,
+            PrimaryButtonText = canInstallAutomatically ? "Install and restart" : "View release",
+            SecondaryButtonText = canInstallAutomatically ? "View release" : string.Empty,
             CloseButtonText = "Later",
             DefaultButton = ContentDialogButton.Primary
         };
@@ -309,12 +311,48 @@ public sealed partial class MainWindow : Window
         ContentDialogResult result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            await Windows.System.Launcher.LaunchUriAsync(
-                update.DownloadUri ?? update.ReleaseUri);
+            if (canInstallAutomatically)
+            {
+                await InstallUpdateAsync(update);
+            }
+            else
+            {
+                await Windows.System.Launcher.LaunchUriAsync(update.ReleaseUri);
+            }
         }
         else if (result == ContentDialogResult.Secondary)
         {
             await Windows.System.Launcher.LaunchUriAsync(update.ReleaseUri);
+        }
+    }
+
+    private async Task InstallUpdateAsync(UpdateCheckResult update)
+    {
+        UpdatesButton.IsEnabled = false;
+        UpdatesButtonText.Text = "Preparing update…";
+
+        var progress = new Progress<UpdateProgress>(value =>
+        {
+            UpdatesButtonText.Text = value.Percentage is double percentage
+                ? $"{value.Message} {percentage:0}%"
+                : value.Message;
+        });
+
+        try
+        {
+            PreparedUpdate preparedUpdate = await _updateService.PrepareUpdateAsync(
+                update,
+                progress);
+
+            UpdatesButtonText.Text = "Restarting…";
+            UpdateService.LaunchPreparedUpdate(preparedUpdate);
+            _forceClose = true;
+            Close();
+        }
+        catch (Exception exception)
+        {
+            UpdatesButtonText.Text = $"Update {update.LatestVersionTag}";
+            await ShowUpdateInstallErrorDialogAsync(exception, update.ReleaseUri);
         }
     }
 
@@ -357,6 +395,26 @@ public sealed partial class MainWindow : Window
         if (await dialog.ShowAsync() == ContentDialogResult.Primary)
         {
             await Windows.System.Launcher.LaunchUriAsync(ReleasesUri);
+        }
+    }
+
+    private async Task ShowUpdateInstallErrorDialogAsync(Exception exception, Uri releaseUri)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = "Could not install the update",
+            Content =
+                $"{exception.Message}\n\n" +
+                "No installed files were changed. You can retry or download the release manually.",
+            PrimaryButtonText = "View release",
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close
+        };
+
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(releaseUri);
         }
     }
 

@@ -16,7 +16,7 @@ ArcVibrance is a lightweight Windows utility that automatically applies a config
 - Lightweight native monitoring agent and system-tray operation
 - Steam game detection and executable icon extraction
 - Windows startup support
-- Built-in checks for the latest stable GitHub release
+- Built-in release updater with SHA-256 verification, rollback, and automatic restart
 - Light and dark WinUI 3 interface
 
 ## Requirements

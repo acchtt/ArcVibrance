@@ -19,6 +19,8 @@ Then open `http://localhost:8080`.
 - `styles.css` — responsive styling
 - `script.js` — mobile navigation and small header behaviors
 - `assets/arcvibrance-logo.png` — official ArcVibrance logo
+- `assets/favicon-32.png` — browser tab icon
+- `assets/apple-touch-icon.png` — iOS home-screen icon
 - `assets/arcvibrance-app.png` — application screenshot
 
 Pushes that change this folder are deployed by

@@ -1,15 +1,15 @@
 :root {
-  --bg: #070814;
-  --bg-soft: #0b0d1b;
-  --surface: #101326;
-  --surface-high: #151a31;
+  --bg: #020617;
+  --bg-soft: #071024;
+  --surface: #0a142b;
+  --surface-high: #101c38;
   --line: rgba(160, 181, 255, 0.14);
   --text: #f7f7ff;
   --muted: #a8adc5;
-  --cyan: #1ddcff;
-  --blue: #287eff;
-  --violet: #813cff;
-  --magenta: #f12bb7;
+  --cyan: #20f5ee;
+  --blue: #1745ff;
+  --violet: #7d36ff;
+  --magenta: #ff1ca8;
   --radius: 20px;
   --shell: 1160px;
 }
